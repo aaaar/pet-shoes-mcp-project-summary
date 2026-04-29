@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amazon US 关键词分析 - pet shoes</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --ink: #0f172a;
+      --sub: #475569;
+      --line: #dbe3ef;
+      --blue: #1d4ed8;
+      --teal: #0f766e;
+      --orange: #c2410c;
+      --red: #b91c1c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 20% 0%, #eef4ff 0%, #f5f7fb 45%);
+    }
+    .wrap {
+      max-width: 1120px;
+      margin: 28px auto;
+      padding: 0 16px 28px;
+    }
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #fff;
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 12px 36px rgba(15, 23, 42, 0.22);
+    }
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      line-height: 1.2;
+    }
+    .hero p {
+      margin: 0;
+      color: #dbeafe;
+    }
+    .grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+    }
+    .metric-title {
+      color: var(--sub);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+    .metric-value {
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    .metric-note {
+      margin-top: 6px;
+      color: var(--sub);
+      font-size: 12px;
+    }
+    .panel {
+      margin-top: 14px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+    }
+    .panel h2 {
+      margin: 0 0 4px;
+      font-size: 18px;
+    }
+    .panel p {
+      margin: 0 0 10px;
+      color: var(--sub);
+      font-size: 13px;
+    }
+    .charts-2 {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: 1.2fr 1fr;
+    }
+    .charts-2 .panel { margin-top: 0; }
+    .seller-fit {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .seller-box {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      background: #fafcff;
+    }
+    .seller-box h3 {
+      margin: 0 0 6px;
+      font-size: 15px;
+    }
+    .seller-box p {
+      margin: 0;
+      color: var(--sub);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .good { border-left: 4px solid var(--teal); }
+    .mid { border-left: 4px solid var(--orange); }
+    .bad { border-left: 4px solid var(--red); }
+    .foot {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--sub);
+    }
+    canvas {
+      width: 100% !important;
+      height: 320px !important;
+    }
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .charts-2 { grid-template-columns: 1fr; }
+      .seller-fit { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Amazon US 关键词可视化分析：pet shoes</h1>
+      <p>数据更新时间：2026-04-22（MCP）| 目标：评估需求、竞争强度、集中度与卖家适配体量</p>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <div class="metric-title">月搜索量</div>
+        <div class="metric-value">211</div>
+        <div class="metric-note">关键词热度较低</div>
+      </div>
+      <div class="card">
+        <div class="metric-title">搜索结果竞品数</div>
+        <div class="metric-value">130,317</div>
+        <div class="metric-note">供给明显过大</div>
+      </div>
+      <div class="card">
+        <div class="metric-title">供需比（搜索/竞品）</div>
+        <div class="metric-value">0.00162</div>
+        <div class="metric-note">每 1 搜索对应约 618 个竞品</div>
+      </div>
+      <div class="card">
+        <div class="metric-title">Top5 品牌月销占比</div>
+        <div class="metric-value">31.44%</div>
+        <div class="metric-note">头部集中度中等</div>
+      </div>
+    </section>
+
+    <div class="charts-2">
+      <section class="panel">
+        <h2>1) 需求 vs 供给</h2>
+        <p>左轴为搜索量，右轴为竞品量。关键词热度与供给不匹配。</p>
+        <canvas id="supplyDemandChart"></canvas>
+      </section>
+
+      <section class="panel">
+        <h2>2) 品牌集中度</h2>
+        <p>Top5品牌合计31.44%，说明不是绝对垄断，但头部仍有优势。</p>
+        <canvas id="brandConcentrationChart"></canvas>
+      </section>
+    </div>
+
+    <section class="panel">
+      <h2>3) 头部商品垄断风险（Top5 ASIN 月销占比）</h2>
+      <p>Top1占比13.54%，Top5合计41.32%，头部吸附明显，进入需差异化。</p>
+      <canvas id="topProductsChart"></canvas>
+    </section>
+
+    <section class="panel">
+      <h2>4) 卖家体量适配建议</h2>
+      <p>基于供需比、竞品密度、词义纯度（存在非纯宠物鞋流量）给出适配建议。</p>
+      <div class="seller-fit">
+        <div class="seller-box bad">
+          <h3>小体量新卖家</h3>
+          <p>不建议以 <b>pet shoes</b> 作为主词硬打。建议优先高意图长尾词，降低无效流量与广告浪费。</p>
+        </div>
+        <div class="seller-box mid">
+          <h3>中等体量卖家</h3>
+          <p>可测试切入，但应绑定细分场景（防滑/防烫路面/康复）+ 变体策略，避免和头部正面冲突。</p>
+        </div>
+        <div class="seller-box good">
+          <h3>中大型/矩阵卖家</h3>
+          <p>更适合。可用词包分层投放、品牌承接和多ASIN协同，把该词作为流量入口词之一。</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="foot">
+      备注：MCP未返回该词“关键词后购买量”有效值，因此购买量与精确购买转化率在本报告中标记为缺失。
+    </div>
+  </div>
+
+  <script>
+    const monthSearch = 211;
+    const competingProducts = 130317;
+
+    const topBrands = [8.13, 7.70, 7.38, 5.86, 2.37];
+    const top5BrandShare = topBrands.reduce((a, b) => a + b, 0);
+    const otherBrandShare = +(100 - top5BrandShare).toFixed(2);
+
+    const topProductShares = [13.54, 9.31, 6.94, 6.85, 5.60];
+
+    new Chart(document.getElementById("supplyDemandChart"), {
+      type: "bar",
+      data: {
+        labels: ["pet shoes"],
+        datasets: [
+          {
+            label: "月搜索量",
+            data: [monthSearch],
+            yAxisID: "y",
+            backgroundColor: "rgba(29, 78, 216, 0.78)",
+            borderRadius: 8
+          },
+          {
+            label: "竞品数量",
+            data: [competingProducts],
+            yAxisID: "y1",
+            backgroundColor: "rgba(194, 65, 12, 0.75)",
+            borderRadius: 8
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: "top" } },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: "月搜索量" }
+          },
+          y1: {
+            beginAtZero: true,
+            position: "right",
+            grid: { drawOnChartArea: false },
+            title: { display: true, text: "竞品数量" }
+          }
+        }
+      }
+    });
+
+    new Chart(document.getElementById("brandConcentrationChart"), {
+      type: "doughnut",
+      data: {
+        labels: ["Top5品牌", "其他品牌"],
+        datasets: [{
+          data: [top5BrandShare, otherBrandShare],
+          backgroundColor: ["rgba(15, 118, 110, 0.85)", "rgba(148, 163, 184, 0.62)"],
+          borderColor: ["#ffffff", "#ffffff"],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: "bottom" }
+        }
+      }
+    });
+
+    new Chart(document.getElementById("topProductsChart"), {
+      type: "bar",
+      data: {
+        labels: ["Top1", "Top2", "Top3", "Top4", "Top5"],
+        datasets: [{
+          label: "在Top100中的月销量占比（%）",
+          data: topProductShares,
+          backgroundColor: [
+            "rgba(30, 58, 138, 0.88)",
+            "rgba(37, 99, 235, 0.82)",
+            "rgba(59, 130, 246, 0.76)",
+            "rgba(96, 165, 250, 0.72)",
+            "rgba(147, 197, 253, 0.72)"
+          ],
+          borderRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: "销量占比 (%)" }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
